@@ -117,7 +117,9 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         sequence.setJournalCode(pEcritureComptable.getJournal().getCode());
         sequence.setAnnee(anneeEcritureCompta);
         sequence.setDerniereValeur(numSequence);
+/*
         this.insertOrUpdateSequenceEcritureComptable(sequence);
+*/
     }
 
     /**
@@ -252,21 +254,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
         try {
             getDaoProxy().getComptabiliteDao().deleteEcritureComptable(pId);
-            getTransactionManager().commitMyERP(vTS);
-            vTS = null;
-        } finally {
-            getTransactionManager().rollbackMyERP(vTS);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void insertOrUpdateSequenceEcritureComptable(SequenceEcritureComptable pSequence) {
-        TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
-        try {
-            getDaoProxy().getComptabiliteDao().insertOrUpdateSequenceEcritureComptable(pSequence);
             getTransactionManager().commitMyERP(vTS);
             vTS = null;
         } finally {

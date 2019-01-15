@@ -3,16 +3,14 @@ package com.dummy.myerp.consumer.dao.impl.db.dao;
 import java.sql.Types;
 import java.util.List;
 
+import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.*;
 import com.dummy.myerp.model.bean.comptabilite.*;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
-import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.CompteComptableRM;
-import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.EcritureComptableRM;
-import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.JournalComptableRM;
-import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.LigneEcritureComptableRM;
 import com.dummy.myerp.consumer.db.AbstractDbConsumer;
 import com.dummy.myerp.consumer.db.DataSourcesEnum;
 import com.dummy.myerp.technical.exception.NotFoundException;
@@ -265,8 +263,25 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         vJdbcTemplate.update(SQLdeleteListLigneEcritureComptable, vSqlParams);
     }
 
+    /* Modif ICI*/
+    /** getSequenceByCurrentYearAndCode */
+    private static String SQLgetSequenceByCurrentYearAndCode;
+    public void setSQLgetSequenceByCurrentYearAndCode(String pSQLgetSequenceByCurrentYearAndCode) {
+        SQLgetSequenceByCurrentYearAndCode = pSQLgetSequenceByCurrentYearAndCode;
+    }
+
     @Override
     public SequenceEcritureComptable getSequenceByCurrentYearAndCode(SequenceEcritureComptable pSequence) throws NotFoundException {
-        return null;
+        NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
+        SequenceEcritureComptableRM vRM = new SequenceEcritureComptableRM();
+        MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
+        vSqlParams.addValue("jounal_code", pSequence.getJournalCode());
+        vSqlParams.addValue("annee", pSequence.getAnnee());
+        try {
+            return vJdbcTemplate.queryForObject(SQLgetSequenceByCurrentYearAndCode, vSqlParams, vRM);
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("Sequence introuvable : codeJournal=" + pSequence.getJournalCode() + ", annee=" + pSequence.getAnnee());
+        }
     }
+
 }
