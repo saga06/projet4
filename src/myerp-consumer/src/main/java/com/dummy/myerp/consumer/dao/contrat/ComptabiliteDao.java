@@ -89,7 +89,21 @@ public interface ComptabiliteDao {
      * @param pSequence la séquence recherchée
      */
     SequenceEcritureComptable getSequenceByCurrentYearAndCode(SequenceEcritureComptable pSequence) throws NotFoundException;
-    /* Fin de modif ici */
+
+    /**
+     * Insert une nouvelle écriture comptable.
+     *
+     * @param pSequenceEcritureComptable -
+     */
+    void insertSequenceEcritureComptable(SequenceEcritureComptable pSequenceEcritureComptable, String code);
+
+    /**
+     * Update une  écriture comptable.
+     *
+     * @param pSequenceEcritureComptable -
+     */
+    void updateSequenceEcritureComptable(SequenceEcritureComptable pSequenceEcritureComptable, String code);
+    /* fin de modif ici */
 
 
 }
