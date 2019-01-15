@@ -188,6 +188,23 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
         // TODO ===== RG_Compta_5 : Format et contenu de la référence
         // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
+        /* ARF */
+        String year = pEcritureComptable.getReference().substring(3,7);
+        int anneeInt = Integer.parseInt(year);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        String yearRef = sdf.format(pEcritureComptable.getDate());
+        int yearInt = Integer.parseInt(yearRef);
+
+        if (anneeInt != yearInt) {
+            throw new FunctionalException("L'année de la référence doit correspondre à la date de l'écriture.");
+        }
+
+        String codeRef = pEcritureComptable.getReference().substring(0,2);
+
+        if(!codeRef.equals(pEcritureComptable.getJournal().getCode())) {
+            throw new FunctionalException("a référence doit avoir le même code que le code journal de l'Ecriture");
+        }
     }
 
 
