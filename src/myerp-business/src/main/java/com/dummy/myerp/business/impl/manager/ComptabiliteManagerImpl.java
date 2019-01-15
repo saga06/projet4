@@ -1,20 +1,18 @@
 package com.dummy.myerp.business.impl.manager;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import com.dummy.myerp.model.bean.comptabilite.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.TransactionStatus;
 import com.dummy.myerp.business.contrat.manager.ComptabiliteManager;
 import com.dummy.myerp.business.impl.AbstractBusinessManager;
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
-import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
-import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
-import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
@@ -74,6 +72,52 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 4.  Enregistrer (insert/update) la valeur de la séquence en persitance
                     (table sequence_ecriture_comptable)
          */
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        //on récupère SEULEMENT l'année d'écriture comptable
+        int anneeEcritureCompta = Integer.parseInt(sdf.format(pEcritureComptable.getDate()));
+        SequenceEcritureComptable vSequenceEcritureCompta = new SequenceEcritureComptable();
+        //la séquence d'écriture à l'année d'écriture
+        vSequenceEcritureCompta.setJournalCode(pEcritureComptable.getJournal().getCode());
+        vSequenceEcritureCompta.setAnnee(anneeEcritureCompta);
+        System.out.println("sequence :" + vSequenceEcritureCompta);
+        //rechercher la séquence par rapport à l'année
+        SequenceEcritureComptable vExistingSequence = new SequenceEcritureComptable();
+        System.out.println("proxy :" + getDaoProxy());
+
+        try {
+            vExistingSequence = getDaoProxy().getComptabiliteDao().getSequenceByCodeAndAnneeCourante(vSequenceEcritureCompta);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+
+        //si aucune séquence trouvée num = 1 sinon num = derniere + 1
+        int numSequence;
+        if (vExistingSequence == null) {
+            numSequence = 1;
+        }
+        else {
+            numSequence = vExistingSequence.getDerniereValeur() + 1;
+        }
+
+        //mise à jour de la réf avec la RG_Compta_5
+
+        String ref = pEcritureComptable.getJournal().getCode() + "-" + anneeEcritureCompta +
+                //formatage du numéro de sequence pour obtenir le format 0000X
+                "/" + String.format("%05d", numSequence);
+        pEcritureComptable.setReference(ref);
+        try {
+            this.updateEcritureComptable(pEcritureComptable);
+        } catch (FunctionalException e) {
+            e.printStackTrace();
+        }
+
+        //Enregistrer (insert/update) la valeur de la séquence en persitance
+        SequenceEcritureComptable sequence = new SequenceEcritureComptable();
+        sequence.setJournalCode(pEcritureComptable.getJournal().getCode());
+        sequence.setAnnee(anneeEcritureCompta);
+        sequence.setDerniereValeur(numSequence);
+        this.insertOrUpdateSequenceEcritureComptable(sequence);
     }
 
     /**
@@ -204,6 +248,21 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
         try {
             getDaoProxy().getComptabiliteDao().deleteEcritureComptable(pId);
+            getTransactionManager().commitMyERP(vTS);
+            vTS = null;
+        } finally {
+            getTransactionManager().rollbackMyERP(vTS);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void insertOrUpdateSequenceEcritureComptable(SequenceEcritureComptable pSequence) {
+        TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
+        try {
+            getDaoProxy().getComptabiliteDao().insertOrUpdateSequenceEcritureComptable(pSequence);
             getTransactionManager().commitMyERP(vTS);
             vTS = null;
         } finally {

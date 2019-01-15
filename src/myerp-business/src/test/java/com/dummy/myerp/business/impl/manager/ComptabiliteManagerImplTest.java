@@ -30,6 +30,7 @@ public class ComptabiliteManagerImplTest {
                                                                                  null, null,
                                                                                  new BigDecimal(123)));
         manager.checkEcritureComptableUnit(vEcritureComptable);
+
     }
 
     @Test(expected = FunctionalException.class)
