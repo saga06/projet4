@@ -11,8 +11,10 @@ public class SequenceEcritureComptable {
     private Integer annee;
     /** La dernière valeur utilisée */
     private Integer derniereValeur;
+    /* Modif ICI*/
     /** Le code journal */
     private String journalCode;
+    /* Fin de modif ici*/
 
     // ==================== Constructeurs ====================
     /**
@@ -47,8 +49,10 @@ public class SequenceEcritureComptable {
     public void setDerniereValeur(Integer pDerniereValeur) {
         derniereValeur = pDerniereValeur;
     }
+    /* Modif ICI*/
     public String getJournalCode() { return journalCode; }
     public void setJournalCode(String journalCode) { this.journalCode = journalCode; }
+    /* Fin de modif ici*/
 
     // ==================== Méthodes ====================
     @Override

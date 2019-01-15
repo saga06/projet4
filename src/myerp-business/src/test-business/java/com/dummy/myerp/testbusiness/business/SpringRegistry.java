@@ -23,9 +23,9 @@ public final class SpringRegistry {
 
     /** Nom des fichiers de contexte de l'application */
     private static final String CONTEXT_APPLI_LOCATION
-            /* Modif ICI*/
-            = "classpath:/com/dummy/myerp/testbusiness/business/bootstrapContext.xml";
-            /* fin de modif */
+    /* Modif ICI*/
+    = "classpath:/com/dummy/myerp/testbusiness/business/bootstrapContext.xml";
+    /* fin de modif */
 
     /** Le context spring de l'application */
     private ApplicationContext contextAppli;
