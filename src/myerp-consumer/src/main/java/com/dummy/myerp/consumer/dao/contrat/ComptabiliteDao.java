@@ -95,14 +95,14 @@ public interface ComptabiliteDao {
      *
      * @param pSequenceEcritureComptable -
      */
-    void insertSequenceEcritureComptable(SequenceEcritureComptable pSequenceEcritureComptable, String code);
+    void insertSequenceEcritureComptable(SequenceEcritureComptable pSequenceEcritureComptable) throws NotFoundException;
 
     /**
      * Update une  écriture comptable.
      *
      * @param pSequenceEcritureComptable -
-     */
-    void updateSequenceEcritureComptable(SequenceEcritureComptable pSequenceEcritureComptable, String code);
+     *//*
+    void updateSequenceEcritureComptable(SequenceEcritureComptable pSequenceEcritureComptable, String code);*/
     /* fin de modif ici */
 
 

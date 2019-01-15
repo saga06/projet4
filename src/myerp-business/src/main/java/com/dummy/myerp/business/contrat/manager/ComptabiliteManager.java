@@ -84,5 +84,13 @@ public interface ComptabiliteManager {
      */
     void deleteEcritureComptable(Integer pId);
 
+    /**
+     * Ajoute l'écriture comptable d'id {@code pId}.
+     *
+     * @param pSequence -
+     */
+    void insertSequenceEcritureComptable(SequenceEcritureComptable pSequence) throws FunctionalException;
+
+
 
 }
