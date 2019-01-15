@@ -230,8 +230,10 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      */
     @Override
     public void updateEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException {
-        /*Check ref ecriture comptable respecte RG5 et RG6 : ajout de la méthode checkEcritureComptable*/
+        /*Modif ICI*/
+        /*Check reférence ecriture comptable respecte RG5 et RG6 : ajout de la méthode checkEcritureComptable de la ligne suivante*/
         this.checkEcritureComptable(pEcritureComptable);
+        /* Fin de modif ici */
         TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
         try {
             getDaoProxy().getComptabiliteDao().updateEcritureComptable(pEcritureComptable);
