@@ -86,7 +86,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         System.out.println("proxy :" + getDaoProxy());
 
         try {
-            vExistingSequence = getDaoProxy().getComptabiliteDao().getSequenceByCodeAndAnneeCourante(vSequenceEcritureCompta);
+            vExistingSequence = getDaoProxy().getComptabiliteDao().getSequenceByCurrentYearAndCode(vSequenceEcritureCompta);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }

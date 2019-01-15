@@ -1,3 +1,4 @@
+/* Modif ICI */
 package com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite;
 
 import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
@@ -22,3 +23,4 @@ public class SequenceEcritureComptableRM implements RowMapper<SequenceEcritureCo
         return vBean;
     }
 }
+/* fin ici*/

@@ -82,17 +82,14 @@ public interface ComptabiliteDao {
      */
     void deleteEcritureComptable(Integer pId);
 
+    /* Modif ICI*/
     /**
      * Récupère la séquence selon l'année courante {@code pSequence}.
      *
      * @param pSequence la séquence recherchée
      */
-    SequenceEcritureComptable getSequenceByCodeAndAnneeCourante(SequenceEcritureComptable pSequence) throws NotFoundException;
+    SequenceEcritureComptable getSequenceByCurrentYearAndCode(SequenceEcritureComptable pSequence) throws NotFoundException;
+    /* Fin de modif ici */
 
-    /**
-     * Insert ou Update une  séquence écriture compta.
-     *
-     * @param pSequence -
-     */
-    void insertOrUpdateSequenceEcritureComptable(SequenceEcritureComptable pSequence);
+
 }
