@@ -6,12 +6,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="maven-archiver (1)" />
+        <module name="maven-archiver (2)" />
+        <module name="maven-archiver (3)" />
+        <module name="myerp-business" />
         <module name="myerp-consumer" />
         <module name="myerp-model" />
         <module name="myerp-technical" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="maven-archiver (1)" target="1.5" />
+      <module name="maven-archiver (2)" target="1.5" />
+      <module name="maven-archiver (3)" target="1.5" />
       <module name="myerp" target="1.5" />
       <module name="myerp-business" target="1.8" />
       <module name="myerp-consumer" target="1.8" />

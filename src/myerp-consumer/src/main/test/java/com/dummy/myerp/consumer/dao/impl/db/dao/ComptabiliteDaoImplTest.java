@@ -19,6 +19,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 
 public class ComptabiliteDaoImplTest extends ConsumerTestCase{
@@ -46,8 +47,7 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase{
     }
 
 
-    // ==================== CompteComptable - GET ====================
-
+    // CompteComptable
     @Test
     public void testGetListCompteComptable() {
         List<CompteComptable> vList = dao.getListCompteComptable();
@@ -55,16 +55,12 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase{
     }
 
 
-    // ==================== JournalComptable - GET ====================
-
     @Test
     public void testGetListJournalComptable() {
         List<JournalComptable> vList = dao.getListJournalComptable();
         assertEquals(4, vList.size());
     }
 
-
-    // ==================== EcritureComptable - GET ====================
 
     @Test
     public void testGetListEcritureComptable() {
@@ -105,13 +101,13 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase{
     }
 
 
-    // ==================== EcritureComptable - INSERT ====================
-
     @Test
     public void testInsertEcritureComptable() {
+        Date vCurrentDate = new Date();
+        Integer vCurrentYear = LocalDateTime.ofInstant(vCurrentDate.toInstant(), ZoneId.systemDefault()).toLocalDate().getYear();
         vEcritureComptable.setJournal(new JournalComptable("OD", "Opérations Diverses"));
-        vEcritureComptable.setReference("OD-" + cy + "/00200");
-        vEcritureComptable.setDate(cd);
+        vEcritureComptable.setReference("OD-" + vCurrentYear + "/00200");
+        vEcritureComptable.setDate(vCurrentDate);
         vEcritureComptable.setLibelle("Sandwichs");
 
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(606),
@@ -127,15 +123,14 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase{
         dao.insertEcritureComptable(vEcritureComptable);
     }
 
-
-    // ==================== EcritureComptable - UPDATE ====================
-
     @Test
     public void testUpdateEcritureComptable() {
+        Date vCurrentDate = new Date();
+        Integer vCurrentYear = LocalDateTime.ofInstant(vCurrentDate.toInstant(), ZoneId.systemDefault()).toLocalDate().getYear();
         vEcritureComptable.setId(-4);
         vEcritureComptable.setJournal(new JournalComptable("OD", "Opérations Diverses"));
-        vEcritureComptable.setReference("OD-" + cy + "/00200");
-        vEcritureComptable.setDate(cd);
+        vEcritureComptable.setReference("OD-" + vCurrentYear + "/00200");
+        vEcritureComptable.setDate(vCurrentDate);
         vEcritureComptable.setLibelle("Sandwichs");
 
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(606),
@@ -149,12 +144,10 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase{
                 new BigDecimal(12)));
 
         dao.updateEcritureComptable(vEcritureComptable);
-
-        assertEquals(vEcritureComptable.getLibelle(), "Sandwichs");
     }
 
 
-    // ==================== EcritureComptable - DELETE ====================
+
 
     @Test
     public void testDeleteEcritureComptable() {
@@ -162,26 +155,23 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase{
     }
 
 
-    // ==================== SequenceEcritureComptable ====================
 
     /*@Test
-    public void testGetSequenceByCodeAndAnneeCourante() throws NotFoundException {
+    public void getSequenceByAnneeCourante() throws NotFoundException {
         SequenceEcritureComptable vRechercheSequence = new SequenceEcritureComptable();
-        vRechercheSequence.setJournalCode("OD");
+        vRechercheSequence.setJournalCode("BQ");
         vRechercheSequence.setAnnee(2016);
-        vRechercheSequence.setDerniereValeur(88);
-
         SequenceEcritureComptable vExistingSequence = dao.getSequenceByCurrentYearAndCode(vRechercheSequence);
 
-        assertEquals("OD", vExistingSequence.getJournalCode());
-        assertEquals(2016, vExistingSequence.getAnnee().intValue());
-        assertEquals(88, vExistingSequence.getDerniereValeur().intValue());
-
-
+        if (vExistingSequence != null) {
+            assertEquals("BQ", vExistingSequence.getJournalCode());
+            assertEquals(2016, vExistingSequence.getAnnee().intValue());
+            assertEquals(88, vExistingSequence.getDerniereValeur().intValue());
+        } else fail("Incorrect result size: expected 1, actual 0");
     }*/
 
     @Test(expected = InvalidDataAccessApiUsageException.class)
-    public void testGetSequenceByCurrentYearAndCodeExcption() throws NotFoundException {
+    public void testGetSequenceByCurrentYearAndCodeException() throws NotFoundException {
         SequenceEcritureComptable vRechercheSequence = new SequenceEcritureComptable();
         vRechercheSequence.setJournalCode("test");
         vRechercheSequence.setAnnee(2016);
