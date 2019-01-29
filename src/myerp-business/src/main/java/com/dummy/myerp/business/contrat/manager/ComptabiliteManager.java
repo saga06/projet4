@@ -7,6 +7,7 @@ import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
+import com.dummy.myerp.technical.exception.NotFoundException;
 
 
 /**
@@ -51,7 +52,7 @@ public interface ComptabiliteManager {
      * <p><strong>Attention :</strong> l'écriture n'est pas enregistrée en persistance</p>
      * @param pEcritureComptable L'écriture comptable concernée
      */
-    void addReference(EcritureComptable pEcritureComptable);
+    void addReference(EcritureComptable pEcritureComptable)throws NotFoundException, FunctionalException;
 
     /**
      * Vérifie que l'Ecriture comptable respecte les règles de gestion.
@@ -60,6 +61,8 @@ public interface ComptabiliteManager {
      * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les règles de gestion
      */
     void checkEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException;
+    void checkEcritureComptableUnit(EcritureComptable pEcritureComptable) throws FunctionalException;
+    void checkEcritureComptableContext(EcritureComptable pEcritureComptable) throws FunctionalException;
 
     /**
      * Insert une nouvelle écriture comptable.
@@ -90,7 +93,5 @@ public interface ComptabiliteManager {
      * @param pSequence -
      */
     void insertSequenceEcritureComptable(SequenceEcritureComptable pSequence) throws FunctionalException;
-
-
 
 }

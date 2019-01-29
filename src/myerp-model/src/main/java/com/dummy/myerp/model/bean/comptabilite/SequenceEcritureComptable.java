@@ -29,15 +29,15 @@ public class SequenceEcritureComptable {
      * @param pAnnee -
      * @param pDerniereValeur -
      */
-    public SequenceEcritureComptable(Integer pAnnee, Integer pDerniereValeur, String pJournalCode) {
+    public SequenceEcritureComptable(String pCodeJournal, Integer pAnnee, Integer pDerniereValeur) {
+        journalCode = pCodeJournal;
         annee = pAnnee;
         derniereValeur = pDerniereValeur;
-        journalCode = pJournalCode;
     }
 
-    public SequenceEcritureComptable(Integer pAnnee, String pJournalCode) {
+    public SequenceEcritureComptable(String pCodeJournal, Integer pAnnee) {
+        journalCode = pCodeJournal;
         annee = pAnnee;
-        journalCode = pJournalCode;
     }
 
 
@@ -68,7 +68,7 @@ public class SequenceEcritureComptable {
         vStB.append("{")
             .append("annee=").append(annee)
             .append(vSEP).append("derniereValeur=").append(derniereValeur)
-            .append("journalCode=").append(journalCode)
+            .append(vSEP).append("journalCode=").append(journalCode)
             .append("}");
         return vStB.toString();
     }
